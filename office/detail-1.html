@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Produk - Beras Pulen</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Anda mungkin perlu membuat file CSS terpisah atau menyalin gaya dari index.html -->
+    <style>
+        /* Salin gaya yang relevan dari index.html ke sini atau ke styles.css */
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .product-detail-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Default for larger screens */
+            gap: 40px;
+            align-items: start;
+        }
+
+        /* New styles for scrollable image gallery */
+        .product-detail-image {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+            border-radius: 10px; /* Optional: for the container itself */
+            /* gap: 10px; /* Optional: if you want visible space between images when scrolling */
+        }
+
+        .product-detail-image img {
+            flex: 0 0 100%; /* Each image takes 100% of the scroll container's viewport width */
+            width: 100%;    /* Ensure image stretches to the flex item's width */
+            height: auto;   /* Maintain aspect ratio */
+            object-fit: contain; /* Ensures the whole image is visible, fitting within width and auto height */
+            scroll-snap-align: center; /* Aligns the image to the center of the scrollport */
+            border-radius: 10px; /* Keep original border-radius for images */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); /* Keep original shadow for images */
+        }
+
+        .product-detail-info h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        .product-detail-info .price {
+            color: #7fb069;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .product-detail-info .description {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        .btn {
+            background: #7fb069;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background: #6a9b5a;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #7fb069;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Header dan Footer Styles (Sama seperti di index.html) */
+        .header {
+            background: linear-gradient(135deg, #7fb069, #90c695);
+            padding: 10px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .logo {
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo img {
+            height: auto;
+            width: auto;
+            max-width: 80px;
+            max-height: 80px;
+            object-fit: contain;
+            border-radius: 40%;
+        }
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            transition: opacity 0.3s;
+        }
+        .nav-menu a:hover {
+            opacity: 0.8;
+            color: rgb(178, 237, 217);
+        }
+        .footer {
+            background: linear-gradient(135deg, #7fb069, #90c695);
+            padding: 30px 20px; /* Adjusted padding to be more compact */
+            color: white;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Two columns for footer content */
+            gap: 30px; /* Reduced gap slightly */
+            align-items: center;
+        }
+
+        .footer-left {
+            background: rgba(255,255,255,0.1);
+            padding: 20px; /* Reduced padding */
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .footer-left h3, .footer-left h4 { 
+            margin-bottom: 10px; /* Reduced margin */
+            font-size: 1.3rem; /* Slightly reduced font size */
+        }
+        .footer-left .logo img{
+            max-width: 60px; /* Slightly smaller logo in footer */
+            max-height: 60px;
+            object-fit: contain;
+            border-radius: 40%;
+            margin-right:10px; /* Added margin for spacing */
+        }
+        .footer-left .logo {
+            display:flex;
+            align-items:center;
+        }
+
+        .footer-right {
+            text-align: center;
+        }
+
+        .footer-right h3 {
+            margin-bottom: 15px; /* Reduced margin */
+            font-size: 1.3rem; /* Slightly reduced font size */
+        }
+
+        .ecommerce-icons-footer {
+            display: flex;
+            justify-content: center;
+            gap: 15px; /* Reduced gap */
+            margin: 15px; /* Reduced margin */
+            flex-wrap: wrap;
+        }
+
+        .ecommerce-icon {
+            width: 40px; /* Smaller icons */
+            height: 40px; 
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 12px;
+            color: #7fb069;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            background-size: contain; 
+            background-repeat: no-repeat; 
+            background-position: center; 
+        }
+
+        .ecommerce-icon:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+
+        .ecommerce-icon.shopee {
+            background-image: url('/image/e-com/shope.png');
+        }
+
+        .ecommerce-icon.tokopedia {
+            background-image: url('/image/e-com/tokped.png');
+        }
+
+        .ecommerce-icon.whatsapp {
+            background-image: url('/image/e-com/whatsapp-logo-1.png');
+            background-size: 85%; 
+            border-radius: 50%;
+        }
+
+        .ecommerce-icon.google {
+            background-image: url('/image/e-com/google.png');
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .product-detail-container {
+                grid-template-columns: 1fr; /* Stack image and info vertically */
+                gap: 20px; /* Reduce gap for smaller screens */
+            }
+
+            .product-detail-image {
+                /* Ensure the image container doesn't cause overflow issues if its parent grid changes */
+                max-width: 100%; 
+            }
+
+            .product-detail-info h1 {
+                font-size: 1.8em; /* Adjust heading size for mobile */
+            }
+
+            .product-detail-info .price {
+                font-size: 1.3em; /* Adjust price size for mobile */
+            }
+
+            .nav-menu {
+                flex-direction: column; /* Stack nav items on very small screens */
+                gap: 15px; /* Adjust gap for stacked nav items */
+                align-items: center; /* Center stacked nav items */
+                display: none; /* Hide nav menu on mobile */
+            }
+
+            .nav-container {
+                flex-direction: column; /* Stack logo and nav menu */
+                gap: 15px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr; 
+                text-align: center;
+                gap: 20px; /* Adjusted gap for mobile */
+            }
+
+            .footer-left {
+                margin-bottom: 20px; 
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .product-detail-info h1 {
+                font-size: 1.5em;
+            }
+            .product-detail-info .price {
+                font-size: 1.2em;
+            }
+            .btn {
+                padding: 10px 20px; /* Adjust button padding */
+                font-size: 0.9em;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="/image/Gemini_Generated_Image_lz2bi5lz2bi5lz2b.png" alt="Company Logo">
+                <p>PD.Lantabur Berkah</p>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html#home">Home</a></li>
+                    <li><a href="index.html#tentang">Tentang kami</a></li>
+                    <li><a href="index.html#layanan">Layanan</a></li>
+                    <li><a href="index.html#produk">Produk</a></li>
+                    <li><a href="index.html#kontak">Kontak</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <a href="index.html#produk" class="back-link">&lt; Kembali ke Produk</a>
+        <div class="product-detail-container">
+            <div class="product-detail-image">
+                <img src="/image/beras-sumo-42fcd57f33ea761475c68e07c4840c81.jpg" alt="Beras Pulen Super - Tampak Depan">
+                <img src="/image/pngtree-a-good-harvest-of-rice-image_1064011.jpg" alt="Ilustrasi Panen Beras">
+                <img src="/image/Gemini_Generated_Image_lz2bi5lz2bi5lz2b.png" alt="Logo PD.Lantabur Berkah">
+                <!-- Slider controls removed -->
+            </div>
+            <div class="product-detail-info">
+                <h1>Beras Pulen Super</h1>
+                <p class="price">Rp15.000 / kg</p>
+                <p class="description">
+                    Nikmati kelembutan dan rasa pulen dari beras pilihan kami. Diproses secara higienis 
+                    untuk menghasilkan nasi yang lezat dan bergizi. Cocok untuk hidangan sehari-hari keluarga Anda. 
+                    Kualitas terjamin, langsung dari petani.
+                </p>
+                <h3>Detail Produk:</h3>
+                <ul>
+                    <li>Jenis: Beras Putih Premium</li>
+                    <li>Tekstur: Pulen</li>
+                    <li>Kemasan: 5kg, 10kg, 25kg</li>
+                    <li>Asal: Petani Lokal Pilihan</li>
+                </ul>
+                <a href="https://wa.me/6289696989863?text=Saya%20tertarik%20dengan%20Beras%20Pulen%20Super" target="_blank" class="btn">Pesan via WhatsApp</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-left">
+                <div class="logo">
+                    <img src="/image/Gemini_Generated_Image_lz2bi5lz2bi5lz2b.png" alt="Company Logo">
+                    <h4>PD.Lantabur Berkah</h4>
+                </div>
+                <br>
+                <p>Jl. Kramat No.38, RT.6, Kby. Lama Utara, Kec. Kby. Lama, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12220</p>
+                <div><br></div>
+                <p style="font-size: small;">No NIB 234A/D54FG.SHU.KEMENDAGRI/32.2023</p>
+                <p style="font-size: small;">Sertifikasi Halal 234A/D54FG.SHU.KEMENDAGRI/32.2023</p>
+            </div>
+            <div class="footer-right">
+                <h3>FIND US</h3>
+               <div class="ecommerce-icons-footer">
+                    <a href="#" class="ecommerce-icon shopee"></a>
+                    <a href="#" class="ecommerce-icon tokopedia"></a>
+                    <a href="#" class="ecommerce-icon whatsapp"></a>
+                    <a href="#" class="ecommerce-icon google"></a>
+                </div>
+               <p>© 2023 PD.Lantabur Berkah. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
