@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lantabur Berkah</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            /* Removed padding-top: 50px; */
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001; /* Ensure it's above everything */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            transform: translateY(-50px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-content h2 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .modal-content p {
+            margin-bottom: 20px;
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        .modal-close-btn {
+            background: #7fb069;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        .modal-close-btn:hover {
+            background: #6a9b5a;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #7fb069, #90c695);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo img {
+            height: auto;
+            width: auto;
+            max-width: 80px;
+            max-height: 80px;
+            object-fit: contain;
+            border-radius: 40%;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            transition: opacity 0.3s;
+        }
+
+        .nav-menu a:hover {
+            opacity: 0.8;
+            color: rgb(178, 237, 217);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('/image/pngtree-a-good-harvest-of-rice-image_1064011.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            padding: 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.3);
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            color: white;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 30px;
+            color: white;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: white;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        /* About Section */
+        .about {
+            padding: 80px 20px;
+            background: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .about-left {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.08);
+        }
+
+        .about-left h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .about-middle, .about-right {
+            padding: 20px 0 20px 20px;
+            margin-left:0;
+        }
+
+        .about-middle h3, .about-right h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .about-middle p, .about-right p {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        /* Services Section */
+        .services {
+            background: #e6ece8;
+            padding: 80px 20px;
+        }
+
+        .services-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .services-header h2 {
+            background: white;
+            display: inline-block;
+            padding: 15px 30px;
+            border-radius: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            color: #2c3e50;
+            font-weight: 300;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 50px;
+        }
+
+        .service-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            height: 300px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .service-card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .service-card p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+
+        /* Products Section */
+        .products {
+            padding: 80px 20px;
+            background: rgb(255, 255, 255);
+        }
+
+        .products-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .products-header h2 {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .products-header p {
+            color: #666;
+            font-size: 1.2rem;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+            
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            height: 320px;
+        }
+
+        .product-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .product-image {
+            height: 200px;
+            background: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-style: italic;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-info h3 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .product-price {
+            color: #7fb069;
+            font-weight: bold;
+        }
+
+        .view-more {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .btn {
+            background: #7fb069;
+            color: white;
+            padding: 13px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.3s;
+        }
+
+        .btn-detail {
+            background: #7fb069;
+            color: white;
+            padding: 5px 20px;
+            margin-top: 4px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.3s;
+        }
+
+
+        .btn:hover {
+            background: #6a9b5a;
+        }
+
+        .whatsapp-btn {
+            background: #25d366;
+            color: white;
+            padding: 12px 22px;
+            border: none;
+            border-radius: 20px;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+
+        .whatsapp-btn:hover {
+            background: #128c7e;
+        }
+
+        /* Contact Section */
+        .contact {
+            background-color: #e6ece8;
+            
+            padding: 80px 20px;
+        }
+
+        .contact-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .contact-header h2 {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: start;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .contact-item {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .contact-item h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .contact-item p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .map-container {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .map-placeholder {
+            height: 300px;
+            background: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-style: italic;
+        }
+
+        .contact-form {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, #7fb069, #90c695);
+            padding: 50px 20px 20px;
+            color: white;
+        
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .footer-left {
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .footer-left h3 {
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .footer-right {
+            text-align: center;
+        }
+
+        .footer-right h3 {
+            margin-bottom: 20px;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .social-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .social-icon:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .ecommerce-icons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .ecommerce-icons-footer {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px;
+            flex-wrap: wrap;
+        }
+
+        .ecommerce-icon {
+            width: 50px; /* Changed from 60px */
+            height: 50px; /* Changed from 60px */
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 12px;
+            color: #7fb069;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            background-size: contain; /* Moved here */
+            background-repeat: no-repeat; /* Moved here */
+            background-position: center; /* Moved here */
+        }
+
+        .ecommerce-icon:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+
+        .ecommerce-icon.shopee {
+            background-image: url('/image/e-com/shope.png');
+        }
+
+        .ecommerce-icon.tokopedia {
+            background-image: url('/image/e-com/tokped.png');
+        }
+
+        .ecommerce-icon.whatsapp {
+            background-image: url('/image/e-com/whatsapp-logo-1.png');
+            background-size: 85%; /* Adjust this value as needed */
+            
+            border-radius: 50%;
+        }
+
+        .ecommerce-icon.google {
+            background-image: url('/image/e-com/google.png');
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .animate-on-scroll.active {
+            opacity: 1;
+            transform: translateY(0);
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero {
+                height: 100vh;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="modal-overlay" id="devModalOverlay">
+        <div class="modal-content">
+            <h2>Under Development</h2>
+            <p>hii there, If you have any suggestions or feedback feel free to contact the developer contact me at [muhammadfathanfarizi@google.com].</p>
+            <button class="modal-close-btn" id="closeDevModal">Close</button>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="/image/Gemini_Generated_Image_lz2bi5lz2bi5lz2b.png" alt="Company Logo">
+                <p>PD.Lantabur Berkah</p>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#tentang">Tentang kami</a></li>
+                    <li><a href="#layanan">Layanan</a></li>
+                    <li><a href="#produk">Produk</a></li>
+                    <li><a href="#kontak">Kontak</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero animate-on-scroll">
+        <div class="hero-content">
+            <h1>PD. Lantabur Berkah</h1>
+            <p>Menyediakan beras berkualitas untuk keluarga Indonesia</p>
+            <p>Dari petani untuk konsumen dengan kualitas terbaik</p>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about animate-on-scroll">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-left">
+                    <h2>Tentang Kami</h2>
+                    <h3>PD.Lantabur Berkah</h3>
+                    <p>Berlokasi dipusat pasar kebayoran lama, Pd Lantabur Berkah  merupakan perusahaan yang berfokus pada sumber daya pangan khususnya beras.</p>
+                    <a href="https://wa.me/6289696989863" target="_blank" class="whatsapp-btn"> Hubungi WhatsApp kami</a>
+                </div>
+                <div class="about-middle">
+                    <h3>Sejak 2008</h3>
+                    <p>PD.Lantabur Berkah memiliki pengalaman dan telah dipercaya oleh banyak mitra di bidang suply beras selama lebih dari sepuluh tahun lebih.</p>
+                    
+                    <h3>Visi & Misi</h3>
+                    <p>Menjadi brand nomor 1 untuk beras kualitas premium, dengan komitmen untuk menyediakan produk berkualitas tinggi yang stabil. </p>
+                </div>
+                <div class="about-right">
+                    <h3>Pusat suply beras</h3>
+                    <p>PD.Lantabur Berkah berpusat di pasar Kebayoran Lama jakarta selatan jl.Kramat no.38 Dekat Stasiun Kebayoran lama.</p>
+                    
+                    <h3>Produk Unggul</h3>
+                    <p>Berbagai produk berkualitas dan terjamin yang kami distribusikan akan menjadikan suplay beras untuk  usaha Anda berjalan lancar.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services animate-on-scroll">
+        <div class="container">
+            <div class="services-header">
+                <h2>Kami Melayani</h2>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>Suply Harian</h3>
+                    <p>Agen Beras
+                     Untuk Anda yang memiliki usaha di bidang kuliner atau kattering yang  memerlukan supplier beras  yang sudah berpengalaman, Lantabur berkah  siap menjadi Supplier beras yang handal  untuk Anda
+
+                    .</p>
+                </div>
+                <div class="service-card">
+                    <h3>Pengantaran</h3>
+                    <p>Lantabur berkah menyiapkan service antar yang siap langsung mengantar pesanan anda  dengan jarak, ongkos dan berat sesuai dengan prosedur atau negosiasi dengan kami .</p>
+                </div>
+                <div class="service-card">
+                    <h3>Pesanan Partai</h3>
+                    <p>Donasi
+                      Kebutuhan donasi atau paket sembalo  yang memerlukan beras atau sebako lain nya  dengan kemasan sesuai kebutuhan,bisa kami tangani sesuai  dengan kebutuhan Anda</p>
+                </div>
+                <div class="service-card">
+                    <h3>Lainnya</h3>
+                    <p>
+                       Kebutuhan beras dalam skala tertentu lainnya yang besar sesuai kebutuhan dengan anda, jangan ragu tanyakan dengan kami, kami siap melayani dengan profesional.</p>
+                       <a href="https://wa.me/6289696989863" target="_blank" class="whatsapp-btn"> Hubungi WhatsApp kami</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="products animate-on-scroll">
+        <div class="container">
+            <!-- Question Section -->
+            <div style="padding: 50px 20px; text-align: center; color: white; margin-bottom: 50px; border-radius: 15px; background: linear-gradient(135deg, #7fb069, #90c695); background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.4)), url('/image/green\ dark.jpg'); background-repeat: no-repeat; background-size: cover; background-position: center;">
+                <h2>Kunjungi kami  secara daring</h2>
+                <p>Untuk memenuhi kebutuhan constumer secara luas dan mudah Lantabur berkah sudah tersedia diberbagai e-commerce.</p>
+                <p>Ayo kunjungi Kami dibawah ini</p>
+                <div class="ecommerce-icons">
+                    <a href="https://s.shopee.co.id/yTAweR0z" class="ecommerce-icon shopee"></a>
+                    <a href="https://www.tokopedia.com/lantaburberkah" class="ecommerce-icon tokopedia"></a>
+                    <a href="https://wa.me/6289696989863" class="ecommerce-icon whatsapp"></a>
+                    <a href="https://www.google.com/search?q=grosir+beras+pd+lantabur+berkah+kebayoran+lama+grosir+beras&sca_esv=5cd7a0208e12e544&ei=TNJFaPykHP6SseMPk-rCmQk&ved=0ahUKEwj8-pyhtuKNAxV-SWwGHRO1MJMQ4dUDCBA&uact=5&oq=grosir+beras+pd+lantabur+berkah+kebayoran+lama+grosir+beras&gs_lp=Egxnd3Mtd2l6LXNlcnAiO2dyb3NpciBiZXJhcyBwZCBsYW50YWJ1ciBiZXJrYWgga2ViYXlvcmFuIGxhbWEgZ3Jvc2lyIGJlcmFzMgUQABjvBTIFEAAY7wUyCBAAGIAEGKIEMggQABiABBiiBDIIEAAYgAQYogRIsBhQmw9Y0RVwAngAkAEAmAFYoAGgAaoBATK4AQPIAQD4AQL4AQGYAgSgAqwBwgILEAAYgAQYsAMYogTCAggQABiwAxjvBZgDAIgGAZAGBJIHATSgB8ILsgcBMrgHpgHCBwMwLjTIBwo&sclient=gws-wiz-serp&lqi=Cjtncm9zaXIgYmVyYXMgcGQgbGFudGFidXIgYmVya2FoIGtlYmF5b3JhbiBsYW1hIGdyb3NpciBiZXJhc0izkO3RxbqAgAhaXxAAEAEQCBgAGAEYAxgEGAUYBhgHGAgiO2dyb3NpciBiZXJhcyBwZCBsYW50YWJ1ciBiZXJrYWgga2ViYXlvcmFuIGxhbWEgZ3Jvc2lyIGJlcmFzKgoIAhAAEAEQABABkgEPcmljZV93aG9sZXNhbGVyqgG-AQoNL2cvMTF4ZzN4OGgyZgoIL20vMDk3NTkQASo_Ijtncm9zaXIgYmVyYXMgcGQgbGFudGFidXIgYmVya2FoIGtlYmF5b3JhbiBsYW1hIGdyb3NpciBiZXJhcygmMh8QASIbejAh2jXyD97YdjC59B2l4NIijbAXokNvM2dcMj8QAiI7Z3Jvc2lyIGJlcmFzIHBkIGxhbnRhYnVyIGJlcmthaCBrZWJheW9yYW4gbGFtYSBncm9zaXIgYmVyYXM#rlimm=512133388816777941" class="ecommerce-icon google"></a>
+                </div>
+            </div>
+
+            <div class="products-header">
+                <h2>Produk Kami</h2>
+                <p>Beberapa Produk Unggulan Kami</p>
+            </div>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image" style="background-image: url(/image/beras-sumo-42fcd57f33ea761475c68e07c4840c81.jpg); background-size: cover; background-position: center;">                       
+                    </div>
+                    <div class="product-info">
+                        <h3>Beras Pulen</h3>
+                        <a href="detail-1.html" class="btn-detail">Detail</a>
+                    </div>
+                </div>
+                <div class="product-card">
+                   <div class="product-image" style="background-image: url(/image/beras-sumo-42fcd57f33ea761475c68e07c4840c81.jpg); background-size: cover; background-position: center;">                       
+                    </div>
+                    <div class="product-info">
+                        <h3>beras pulen</h3>
+                        <a href="detail-1.html" class="btn-detail">Detail</a>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image" style="background-image: url(/image/beras-sumo-42fcd57f33ea761475c68e07c4840c81.jpg); background-size: cover; background-position: center;">                       
+                    </div>
+                    <div class="product-info">
+                        <h3>Beras pulen</h3>
+                        <a href="detail-1.html" class="btn-detail">Detail</a>
+                    </div>
+                </div>
+                <div class="product-card">
+                   <div class="product-image" style="background-image: url(/image/beras-sumo-42fcd57f33ea761475c68e07c4840c81.jpg); background-size: cover; background-position: center;">                       
+                    </div>
+                    <div class="product-info">
+                        <h3>Beras pulen</h3>
+                        <a href="detail-1.html" class="btn-detail">Detail</a>
+                    </div>
+                </div>
+            </div>
+            <div class="view-more">
+                <a href="#" class="btn">Lihat lebih Banyak ></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact animate-on-scroll">
+        <div class="container">
+            <div class="contact-header">
+                <h2>Kontak Kami</h2>
+            </div>
+            <div class="contact-content">
+                <div>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <h3>Alamat</h3>
+                            <p>Jl. Kramat No.38, RT.6, Kby. Lama Utara, Kec. Kby. Lama, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12220</p>
+                        </div>
+                        <div class="contact-item">
+                            <h3>Hubungi Kami</h3>
+                            <p>+62 815-1166-9100</p>
+                            <p>(WhatsApp Only)</p>
+                
+                        </div>
+                        <div class="contact-item">
+                            <h3>Gmail</h3>
+                            <p>pdlantaburberkah@gmail.com</p>
+                            <p></p>
+                        </div>
+
+                         <div class="contact-item">
+                            <h3>Jam Kerja</h3>
+                            <p>Setiap Hari 08:00 - 21:00</p>
+                            <p>(Kecuali Hari Raya)</p>
+                        </div>
+
+                    </div>
+                    <div class="map-container">
+        <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.123456789!2d106.123456789!3d-6.123456789!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f123456789%3A0x123456789abcdef!2sJl.%20Kramat%20Raya%20No.38%2C%20Kebayoran%20Lama!5e0!3m2!1sen!2sid!4v1234567890123!5m2!1sen!2sid" 
+        width="100%" 
+        height="300" 
+        style="border:0;" 
+        allowfullscreen="" 
+        loading="lazy">
+        </iframe>
+            </div>
+                </div>
+        <div class="contact-form">
+                     <form action="https://formsubmit.co/muhammadfathanfarizi@gmail.com" method="post">
+        <div class="form-group">
+            <label for="name">Nama Lengkap</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="message">Pesan</label>
+            <textarea id="message" name="message" required></textarea>
+        </div>
+        <button type="submit" class="btn">Kirim Pesan</button>
+    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer animate-on-scroll">
+        <div class="footer-content">
+            <div class="footer-left">
+                <div class="logo">
+                <img src="/image/Gemini_Generated_Image_lz2bi5lz2bi5lz2b.png" alt="Company Logo">
+                <h4>PD.Lantabur Berkah</h4>
+                </div>
+                <br>
+                <p>Jl. Kramat No.38, RT.6, Kby. Lama Utara, Kec. Kby. Lama, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12220</p>
+                <div><br></div>
+                <p style="font-size: small;">No NIB 234A/D54FG.SHU.KEMENDAGRI/32.2023</p>
+                <p style="font-size: small;">Sertifikasi Halal 234A/D54FG.SHU.KEMENDAGRI/32.2023</p>
+            </div>
+            <div class="footer-right">
+                <h3>FIND US</h3>
+               <div class="ecommerce-icons-footer">
+                    <a href="https://s.shopee.co.id/yTAweR0z" class="ecommerce-icon shopee"></a>
+                    <a href="https://www.tokopedia.com/lantaburberkah" class="ecommerce-icon tokopedia"></a>
+                    <a href="https://wa.me/6289696989863" class="ecommerce-icon whatsapp"></a>
+                    <a href="https://www.google.com/search?q=grosir+beras+pd+lantabur+berkah+kebayoran+lama+grosir+beras&sca_esv=5cd7a0208e12e544&ei=TNJFaPykHP6SseMPk-rCmQk&ved=0ahUKEwj8-pyhtuKNAxV-SWwGHRO1MJMQ4dUDCBA&uact=5&oq=grosir+beras+pd+lantabur+berkah+kebayoran+lama+grosir+beras&gs_lp=Egxnd3Mtd2l6LXNlcnAiO2dyb3NpciBiZXJhcyBwZCBsYW50YWJ1ciBiZXJrYWgga2ViYXlvcmFuIGxhbWEgZ3Jvc2lyIGJlcmFzMgUQABjvBTIFEAAY7wUyCBAAGIAEGKIEMggQABiABBiiBDIIEAAYgAQYogRIsBhQmw9Y0RVwAngAkAEAmAFYoAGgAaoBATK4AQPIAQD4AQL4AQGYAgSgAqwBwgILEAAYgAQYsAMYogTCAggQABiwAxjvBZgDAIgGAZAGBJIHATSgB8ILsgcBMrgHpgHCBwMwLjTIBwo&sclient=gws-wiz-serp&lqi=Cjtncm9zaXIgYmVyYXMgcGQgbGFudGFidXIgYmVya2FoIGtlYmF5b3JhbiBsYW1hIGdyb3NpciBiZXJhc0izkO3RxbqAgAhaXxAAEAEQCBgAGAEYAxgEGAUYBhgHGAgiO2dyb3NpciBiZXJhcyBwZCBsYW50YWJ1ciBiZXJrYWgga2ViYXlvcmFuIGxhbWEgZ3Jvc2lyIGJlcmFzKgoIAhAAEAEQABABkgEPcmljZV93aG9sZXNhbGVyqgG-AQoNL2cvMTF4ZzN4OGgyZgoIL20vMDk3NTkQASo_Ijtncm9zaXIgYmVyYXMgcGQgbGFudGFidXIgYmVya2FoIGtlYmF5b3JhbiBsYW1hIGdyb3NpciBiZXJhcygmMh8QASIbejAh2jXyD97YdjC59B2l4NIijbAXokNvM2dcMj8QAiI7Z3Jvc2lyIGJlcmFzIHBkIGxhbnRhYnVyIGJlcmthaCBrZWJheW9yYW4gbGFtYSBncm9zaXIgYmVyYXM#rlimm=512133388816777941" class="ecommerce-icon google"></a>
+                </div>
+               <p>© 2023 PD.Lantabur Berkah. All rights reserved.</p>
+                </div>
+        </div>
+    </footer>
+
+    <script>
+        // Modal Functionality
+        const devModalOverlay = document.getElementById('devModalOverlay');
+        const closeDevModalBtn = document.getElementById('closeDevModal');
+
+        // Show modal on page load
+        window.addEventListener('load', () => {
+            devModalOverlay.classList.add('active');
+        });
+
+        // Close modal function
+        function closeModal() {
+            devModalOverlay.classList.remove('active');
+        }
+
+        // Close modal when close button is clicked
+        if (closeDevModalBtn) {
+            closeDevModalBtn.addEventListener('click', closeModal);
+        }
+
+        // Close modal when overlay is clicked
+        if (devModalOverlay) {
+            devModalOverlay.addEventListener('click', function(event) {
+                if (event.target === devModalOverlay) {
+                    closeModal();
+                }
+            });
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll effect to header
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'linear-gradient(135deg, #6a9b5a, #7fb069)';
+            } else {
+                header.style.background = 'linear-gradient(135deg, #7fb069, #90c695)';
+            }
+        });
+
+        // Animation on scroll
+        const animatedElements = document.querySelectorAll('.animate-on-scroll');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // Optional: stop observing once animated
+                }
+            });
+        }, { threshold: 0.1 }); // Adjust threshold as needed (0.1 means 10% of element is visible)
+
+        animatedElements.forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
